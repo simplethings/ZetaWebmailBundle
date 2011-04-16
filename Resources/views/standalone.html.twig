@@ -1,0 +1,13 @@
+<html>
+    <head>
+        <title>{% block zetawebmail_title %}Webmail{% endblock %}</title>
+        <link href="{{ asset("bundles/simplethingszetawebmail/css/zetamailbrowser.css") }}" type="text/css" rel="stylesheet" />
+    </head>
+
+
+    <body>
+        <h2>{% block zetawebmail_mailbox_name "" %}</h2>
+
+        {% block zetawebmail_list %}{% endblock %}
+    </body>
+</html>

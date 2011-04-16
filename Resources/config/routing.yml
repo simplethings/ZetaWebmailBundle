@@ -1,0 +1,15 @@
+simplethings_zetawebmail_download_attachment:
+  pattern: /mails/attachments/
+  defaults: { _controller: "SimpleThingsZetaWebmailBundle:Mail:attachment" }
+
+simplethings_zetawebmail_view_mail:
+  pattern: /mails/view
+  defaults: { _controller: "SimpleThingsZetaWebmailBundle:Mail:view" }
+
+simplethings_zetawebmail_list_mailbox:
+  pattern: /mails/list
+  defaults: { _controller: "SimpleThingsZetaWebmailBundle:Mail:list" }
+
+simplethings_zetawebmail_download_mail:
+  pattern: /mails/download
+  defaults: { _controller: "SimpleThingsZetaWebmailBundle:Mail:download" }

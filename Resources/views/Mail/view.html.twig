@@ -1,0 +1,81 @@
+<html>
+    <head>
+        <link rel="stylesheet" href="{{ asset("bundles/simplethingszetawebmail/css/zetamailview.css") }}" type="text/css" />
+    </head>
+    <script language="javascript" type="text/javascript">
+    <!--
+        function zetaShowImages() {
+            var images = document.getElementsByTagName("img");
+            for(var i=0; i < images.length; i++) {
+                blockedSrc = images[i].getAttribute && images[i].getAttribute("data-blocked-src");
+                if (typeof blockedSrc != "undefined") {
+                    images[i].setAttribute("src", blockedSrc);
+                }
+            }
+            document.getElementById("zetaPrivacyNotice").setAttribute("style", "display:none;");
+            return false;
+        }
+    -->
+    </script>
+<body>
+
+<table class="zetaMailHeaderBox">
+    <col width="100" />
+    <col />
+    <tr>
+        <td>{% trans from "simplethings_zetawebmail" %}Subject{% endtrans %}</td>
+        <td><strong>{{ mail.subject }}</strong></td>
+    </tr>
+    <tr>
+        <td>{% trans from "simplethings_zetawebmail" %}Sender{% endtrans %}</td>
+        <td>
+            <span title="{{ mail.from.email }}">{% if mail.from.name is defined %}{{ mail.from.name }}{% else %}{{ mail.from.email }}{% endif %}</a>
+        </td>
+    </tr>
+    <tr>
+        <td>{% trans from "simplethings_zetawebmail" %}Recipient{% endtrans %}</td>
+        <td>
+{% for to in mail.to %}
+    <span title="{{ to.email }}">{% if to.name %}{{ to.name }}{% else %}{{ to.email }}{% endif %}</span>
+    {% if not loop.last %}, {% endif %}
+{% endfor %}
+    </tr>
+{% if mail.cc is defined %}
+    <tr>
+        <td>{% trans from "simplethings_zetawebmail" %}Copy{% endtrans %}</td>
+        <td>
+{% for to in mail.cc %}
+    <span title="{{ to.email }}">{% if to.name %}{{ to.name }}{% else %}{{ to.email }}{% endif %}</span>
+    {% if not loop.last %}, {% endif %}
+{% endfor %}
+        </td>
+    </tr>
+{% endif %}
+{% if mail.hasAttachments %}
+    <tr>
+        <td>{% trans from "simplethings_zetawebmail" %}Attachments{% endtrans %}</td>
+        <td>
+            <img src="{{ asset("bundles/simplethingszetawebmail/images/attach.png") }}" alt="" />
+{% for part,attachment in mail.attachments %}
+            <a href="{{ path("simplethings_zetawebmail_download_attachment", {"source": source, "mailbox": mailbox, "mail": message, "attachment": part }) }}">
+                {{ attachment.contentDisposition.displayFileName }}
+            </a>
+            {%if not loop.last %}, {% endif %}
+{% endfor %}
+        </td>
+    </tr>
+{% endif %}
+</table>
+
+{% if mail.showPricacyMessage(preferredFormat, showImages) %}
+<div id="zetaPrivacyNotice">
+    <img src="{{ asset("bundles/simplethingszetawebmail/images/information.png") }}" alt="Information" />
+    <span>{% trans from "simplethingszetawebmail" %}To protected your privacy images are blocked. <a href="#" onclick="zetaShowImages()">Click here to display all images</a>.{% endtrans %}</span>
+</div>
+{% endif %}
+
+{% set blockImage = asset("bundles/simplethingszetawebmail/images/blocked.gif") %}
+{{ mail.render(preferredFormat, showImages, blockImage)|raw }}
+
+</body>
+</html>

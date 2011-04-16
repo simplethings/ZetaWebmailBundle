@@ -1,0 +1,21 @@
+parameters:
+  simplethings.zetawebmail.mail.class: "SimpleThings\ZetaWebmailBundle\Mailbox\Mail"
+  simplethings.zetawebmail.listlayout: "SimpleThingsZetaWebmailBundle::standalone.html.twig"
+
+services:
+  simplethings.zetawebmail.mailparser:
+    class:      ezcMailParser
+    arguments:  [ "@simplethings.zetawebmail.mailparser.options" ]
+
+  simplethings.zetawebmail.mailparser.options:
+    class:      ezcMailParserOptions
+    arguments:
+      0:
+        mailClass: %simplethings.zetawebmail.mail.class%
+
+  simplethings.zetawebmail.security.admin_party:
+    class: SimpleThings\ZetaWebmailBundle\Security\AdminPartySecurity
+
+  simplethings.zetawebmail.security.zeta_mail_role:
+    class: SimpleThings\ZetaWebmailBundle\Security\ZetaMailRoleSecurity
+    arguments: [ "@security.context" ]
