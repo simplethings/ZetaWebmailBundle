@@ -8,7 +8,7 @@
             var images = document.getElementsByTagName("img");
             for(var i=0; i < images.length; i++) {
                 blockedSrc = images[i].getAttribute && images[i].getAttribute("data-blocked-src");
-                if (typeof blockedSrc != "undefined") {
+                if (typeof blockedSrc != "undefined" && blockedSrc) {
                     images[i].setAttribute("src", blockedSrc);
                 }
             }
@@ -22,6 +22,20 @@
 <table class="zetaMailHeaderBox">
     <col width="100" />
     <col />
+    <tr>
+        <td colspan="2">
+            {% if mail.hasHtmlPart %}
+            <a href="{{ path("simplethings_zetawebmail_view_mail", {"source": source, "mailbox": mailbox, "mail": message, "format": "html"}) }}">
+                <img border="0" src="{{ asset("bundles/simplethingszetawebmail/images/html.png") }}" alt="HTML-Part" />
+            </a>
+            {% endif %}
+            {% if mail.hasTextPart %}
+            <a href="{{ path("simplethings_zetawebmail_view_mail", {"source": source, "mailbox": mailbox, "mail": message, "format": "text"}) }}">
+                <img border="0" src="{{ asset("bundles/simplethingszetawebmail/images/page_white_text.png") }}" alt="Text-Part" />
+            </a>
+            {% endif %}
+        </td>
+    </tr>
     <tr>
         <td>{% trans from "simplethings_zetawebmail" %}Subject{% endtrans %}</td>
         <td><strong>{{ mail.subject }}</strong></td>
