@@ -16,20 +16,20 @@ to allow any source of mails such as a database or the filesystem.
 
 ## Installation
 
-1. Install Zeta Components
+Install Zeta Components
 
 Currently this has still to be done through the old ezcomponents.org PEAR channel:
 
     pear channel-discover pear.ezcomponents.org
     pear install ezc/Mail
 
-2. Download this bundle into vendor/bundles/SimpleThings/ZetaWebmail:
+Download this bundle into vendor/bundles/SimpleThings/ZetaWebmail:
 
     git clone git://github.com/simplethings/ZetaWebmail.git vendor/bundles/SimpleThings/ZetaWebmail
 
-3. Register Autoloading namespace SimpleThings into app/autoload.php
+Register Autoloading namespace SimpleThings into app/autoload.php
 
-4. Add Bundle to app/AppKernel.php
+Add Bundle to app/AppKernel.php
 
     public function registerBundles()
     {
@@ -41,7 +41,7 @@ Currently this has still to be done through the old ezcomponents.org PEAR channe
         return $bundles;
     }
 
-5. Configure bundle in app/config.yml
+Configure bundle in app/config.yml
 
     simple_things_zeta_webmail:
       security: admin_party
