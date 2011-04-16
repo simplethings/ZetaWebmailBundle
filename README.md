@@ -1,6 +1,6 @@
 # Zeta Webmail Bundle
 
-A flexible Webmail bundle to show lists and detailed view of mails loaded from arbitrary sources.
+A flexible Webmail bundle for [Symfony2](http://www.symfony.com) to show lists and detailed view of mails loaded from arbitrary sources.
 Zeta Components are used to parse mails and access IMAP/POP sources, a simple interface is provided
 to allow any source of mails such as a database or the filesystem.
 

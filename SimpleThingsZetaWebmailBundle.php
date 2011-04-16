@@ -18,8 +18,14 @@
 namespace SimpleThings\ZetaWebmailBundle;
 
 use Symfony\Component\HttpKernel\Bundle\Bundle;
+use ezcMailCharsetConverter;
 
 class SimpleThingsZetaWebmailBundle extends Bundle
 {
-    
+    public function boot()
+    {
+        ezcMailCharsetConverter::setConvertMethod(
+            array( 'SimpleThings\ZetaWebmailBundle\Util\MailConverter', 'convertToUTF8IconvNoNotices' )
+        );
+    }
 }

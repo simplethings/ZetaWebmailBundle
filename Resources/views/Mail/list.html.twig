@@ -27,7 +27,7 @@ Webmail - {{source}}:{{mailbox}}
         <tr>
             <td><a href="{{ path("simplethings_zetawebmail_view_mail", {"source": source, "mailbox": mailbox, "mail": id}) }}">{{mail.subject}}</a></td>
             <td><a href="{{ path("simplethings_zetawebmail_view_mail", {"source": source, "mailbox": mailbox, "mail": id}) }}"><span title="{{mail.from.email}}">{% if mail.from.name is defined %}{{mail.from.name}}{%else%}{{mail.from.email}}{%endif%}</span></a></td>
-            <td><a href="{{ path("simplethings_zetawebmail_view_mail", {"source": source, "mailbox": mailbox, "mail": id}) }}"><span title="{{mail.to.0.email}}">{% if mail.to.0.name is defined %}{{mail.to.0.name}}{%else%}{{mail.to.0.email}}{%endif%}</span></a></td>
+            <td><a href="{{ path("simplethings_zetawebmail_view_mail", {"source": source, "mailbox": mailbox, "mail": id}) }}"><span title="{{mail.recipient.email}}">{% if mail.recipient.name is defined %}{{mail.recipient.name}}{%else%}{{mail.recipient.email}}{%endif%}</span></a></td>
             <td><a href="{{ path("simplethings_zetawebmail_view_mail", {"source": source, "mailbox": mailbox, "mail": id}) }}">{{ mail.timestamp|date('D d.m.Y H:i') }}</a></td>
             <td><a href="{{ path("simplethings_zetawebmail_view_mail", {"source": source, "mailbox": mailbox, "mail": id}) }}">{{ mail.formattedSize }}</a></td>
             <td><a href="{{ path("simplethings_zetawebmail_view_mail", {"source": source, "mailbox": mailbox, "mail": id}) }}">{% if mail.hasAttachments %}<img border="0" src="{{ asset("bundles/simplethingszetawebmail/images/attach.png") }}" alt="Yes" />{% else %}&nbsp;{% endif %}</a></td>

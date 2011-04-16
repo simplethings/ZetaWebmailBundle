@@ -23,6 +23,8 @@ use ezcMailText;
 use ezcMailHtmlPart;
 use ezcMailFilePart;
 use ezcMailMultipart;
+use ezcMailMultipartRelated;
+use ezcMailAddress;
 
 class Mail extends ezcMail
 {
@@ -31,12 +33,25 @@ class Mail extends ezcMail
     private $htmlPart;
     private $attachments;
 
+    public function getRecipient()
+    {
+        // Handle To: undisclosed-recipients;
+        if (count($this->to) > 0 && $this->to[0] instanceof ezcMailAddress && isset($this->to[0]->email)) {
+            $recipient =  $this->to[0];
+            return $recipient;
+        } else {
+            return new ezcMailAddress($this->headers['envelope-to'][0]);
+        }
+    }
+
     private function parseParts()
     {
         if (!$this->parsed) {
             $this->attachments = array();
             if ($this->body instanceof ezcMailMultipart) {
-                foreach ($this->body->getParts() AS $part) {
+                $parts = $this->extractParts();
+
+                foreach ($parts AS $part) {
                     if ($part instanceof ezcMailText && $part->subType == "plain" && $this->textPart === null) {
                         $this->textPart = $part;
                     } else if ($part instanceof ezcMailText && $part->subType == "html" && $this->htmlPart === null) {
@@ -113,17 +128,13 @@ class Mail extends ezcMail
 
     public function getAttachments()
     {
-        $this->parseParts();
-
+        $parts = $this->extractParts();
         $attach = array();
-        if ($this->body instanceof \ezcMailMultipart) {
-            $i = 0;
-            foreach ($this->body->getParts() AS $part) {
-                if ( $part instanceof ezcMailFile) {
-                    $attach[$i] = $part;
-                }
-                $i++;
+        foreach ($parts AS $part) {
+            if ( $part instanceof ezcMailFile) {
+                $attach[$i] = $part;
             }
+            $i++;
         }
         return $attach;
     }
@@ -134,11 +145,7 @@ class Mail extends ezcMail
      */
     public function getAttachment($partNum)
     {
-        if ($this->body instanceof \ezcMailMultipart) {
-            $parts = $this->body->getParts();
-        } else {
-            $parts = array($this->body);
-        }
+        $parts = $this->extractParts();
         if (!isset($parts[$partNum])) {
             throw new \OutOfBoundsException("Accessed part that does not exist in mail.");
         }
@@ -152,5 +159,19 @@ class Mail extends ezcMail
         } else {
             return ceil($this->size / 1024) . "KB";
         }
+    }
+
+    private function extractParts()
+    {
+        if ($this->body instanceof ezcMailMultipart) {
+            if ($this->body instanceof ezcMailMultipartRelated) {
+                $parts = array_merge(array($this->body->getMainPart()), $this->body->getRelatedParts());
+            } else {
+                $parts = $this->body->getParts();
+            }
+        } else {
+            $parts = array($this->body);
+        }
+        return $parts;
     }
 }
