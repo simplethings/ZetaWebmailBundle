@@ -72,10 +72,12 @@ class ImapLoader implements MailboxLoader
             throw MailboxException::unknownSource($source, 'imap');
         }
 
-        return new ImapMailbox($source, $mailbox, $this->getImapTransport($mailbox));
+        $imap = $this->getImapTransport();
+        $imap->selectMailbox($mailbox);
+        return new ImapMailbox($source, $mailbox, $imap);
     }
 
-    private function getImapTransport($mailbox)
+    private function getImapTransport()
     {
         if (!$this->imap) {
             $options = new \ezcMailImapTransportOptions();
@@ -84,8 +86,17 @@ class ImapLoader implements MailboxLoader
 
             $this->imap = new \ezcMailImapTransport( $this->server, $this->port, $options );
             $this->imap->authenticate($this->username, $this->password);
-            $this->imap->selectMailbox($mailbox);
         }
         return $this->imap;
+    }
+
+    /**
+     * Returns a list of all mailbox names managed by this loader.
+     *
+     * @return array
+     */
+    public function getMailboxNames()
+    {
+        return $this->getImapTransport()->listMailboxes();
     }
 }

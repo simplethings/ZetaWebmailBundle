@@ -13,3 +13,7 @@ simplethings_zetawebmail_list_mailbox:
 simplethings_zetawebmail_download_mail:
   pattern: /mails/download
   defaults: { _controller: "SimpleThingsZetaWebmailBundle:Mail:download" }
+
+simplethings_zetawebmail_list_mailboxes:
+  pattern: /mailbox/list
+  defaults: { _controller: "SimpleThingsZetaWebmailBundle:Mail:folder" }

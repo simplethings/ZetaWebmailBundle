@@ -1,0 +1,5 @@
+<ul>
+{% for mailbox in mailboxes %}
+    <li><a href="{{ path("simplethings_zetawebmail_list_mailbox", {"source": source, "mailbox": mailbox}) }}">{{mailbox}}</a></li>
+{% endfor %}
+</ul>

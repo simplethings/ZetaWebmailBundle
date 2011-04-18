@@ -5,8 +5,22 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
         <style type="text/css">
         <!--
+            #mailingFolderList {
+                width: 250px;
+                height: 600px;
+                float: left;
+                overflow-x: hidden;
+                overflow-y: auto;
+                border: 1px solid #c2c2c2;
+                margin-right: 10px;
+            }
+            #mailingFolderList ul {
+                list-style-type: none;
+                padding-left: 15px;
+            }
             #mailingViewer, table.zetaWebmailListing {
                 width: 1000px;
+                float: left;
             }
             #mailingPreview {
                 height: 400px;
@@ -17,7 +31,7 @@
                 overflow-y: auto;
             }
             #mailingViewer iframe {
-                border: 1px solid #000;
+                border: 1px solid #c2c2c2;
             }
             #mailingViewer td.zetaWebmailListingSubject {
                 width: 400px;
@@ -31,6 +45,10 @@
 
     <body>
         <h2>{% block zetawebmail_mailbox_name "" %}</h2>
+
+        <div id="mailingFolderList">
+            {% render "SimpleThingsZetaWebmailBundle:Mail:folder" with {"source": box.sourceName } %}
+        </div>
 
         <div id="mailingViewer">
             <div>

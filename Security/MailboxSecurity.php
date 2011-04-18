@@ -22,8 +22,10 @@ use SimpleThings\ZetaWebmailBundle\Mailbox\Mailbox;
 
 interface MailboxSecurity
 {
+    public function accessSourceAllowed($sourceName, UserInterface $user = null);
+
     /**
      * Has this user access to the mailbox?
      */
-    public function accessAllowed(Mailbox $mailbox, UserInterface $user = null);
+    public function accessMailboxAllowed(Mailbox $mailbox, UserInterface $user = null);
 }

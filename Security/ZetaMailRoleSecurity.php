@@ -36,7 +36,12 @@ class ZetaMailRoleSecurity implements MailboxSecurity
         $this->context = $context;
     }
 
-    public function accessAllowed(Mailbox $mailbox, UserInterface $user = null)
+    public function accessSourceAllowed($sourceName, UserInterface $user = null)
+    {
+        return $this->context->isGranted("ROLE_ZETAMAIL");
+    }
+
+    public function accessMailboxAllowed(Mailbox $mailbox, UserInterface $user = null)
     {
         return $this->context->isGranted("ROLE_ZETAMAIL");
     }

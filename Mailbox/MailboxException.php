@@ -26,6 +26,11 @@ class MailboxException extends Exception
         return new self("Source '".$source."' is not handled by '".$loader."' loader");
     }
 
+    static public function unknownMailbox($mailbox, $source, $loader)
+    {
+        return new self("Unknown mailbox '".$mailbox."' is not handled by '".$source."' source (".$loader.")");
+    }
+
     static public function sourceError()
     {
         return new self("Backend source error.");

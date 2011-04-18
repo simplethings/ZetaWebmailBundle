@@ -23,6 +23,13 @@ namespace SimpleThings\ZetaWebmailBundle\Mailbox\Loader;
 interface MailboxLoader
 {
     /**
+     * Returns a list of all mailbox names managed by this loader.
+     *
+     * @return array
+     */
+    public function getMailboxNames();
+
+    /**
      * Does this mailbox loader contain the given backend source?
      *
      * @param string $source

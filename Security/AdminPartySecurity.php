@@ -25,7 +25,12 @@ use SimpleThings\ZetaWebmailBundle\Mailbox\Mailbox;
  */
 class AdminPartySecurity implements MailboxSecurity
 {
-    public function accessAllowed(Mailbox $mailbox, UserInterface $user = null)
+    public function accessSourceAllowed($sourceName, UserInterface $user = null)
+    {
+        return true;
+    }
+
+    public function accessMailboxAllowed(Mailbox $mailbox, UserInterface $user = null)
     {
         return true;
     }

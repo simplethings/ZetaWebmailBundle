@@ -17,6 +17,8 @@
 
 namespace SimpleThings\ZetaWebmailBundle\Mailbox\Loader;
 
+use SimpleThings\ZetaWebmailBundle\Mailbox\MailboxException;
+
 class PopLoader implements MailboxLoader
 {
     private $sourceName;
@@ -66,7 +68,10 @@ class PopLoader implements MailboxLoader
     public function loadMailbox($source, $mailbox)
     {
         if ($this->sourceName != $source) {
-            throw MailboxException::unknownSource($source, 'imap');
+            throw MailboxException::unknownSource($source, 'pop');
+        }
+        if ($mailbox != "Inbox") {
+            throw MailboxException::unknownMailbox($mailbox, $source, 'pop');
         }
 
         return new PopMailbox($source, $mailbox, $this->getPopTransport());
@@ -83,5 +88,15 @@ class PopLoader implements MailboxLoader
             $this->pop->authenticate($this->username, $this->password);
         }
         return $this->pop;
+    }
+
+    /**
+     * Returns a list of all mailbox names managed by this loader.
+     *
+     * @return array
+     */
+    public function getMailboxNames()
+    {
+        return array("Inbox");
     }
 }

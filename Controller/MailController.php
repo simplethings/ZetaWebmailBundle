@@ -33,10 +33,12 @@ class MailController extends Controller
         $mailbox = $request->get('mailbox');
         $offset = $request->get('offset', 1);
         $limit = $request->get('limit', 20);
+
+        $this->assertAccessSourceAllowed($source);
         
         $loader = $this->get('simplethings.zetawebmail.loader.'.$source);
         $box = $loader->loadMailbox($source, $mailbox);
-        $this->assertAccessAllowed($box);
+        $this->assertAccessMailboxAllowed($box);
         $set = $box->getMessageList($offset, $limit);
 
         $parser = $this->get("simplethings.zetawebmail.mailparser");
@@ -64,9 +66,11 @@ class MailController extends Controller
         $preferredFormat = $request->get('format', 'html');
         $showImages = (bool)$request->get('showImages', 0);
 
+        $this->assertAccessSourceAllowed($source);
+
         $loader = $this->get('simplethings.zetawebmail.loader.'.$source);
         $box = $loader->loadMailbox($source, $mailbox);
-        $this->assertAccessAllowed($box);
+        $this->assertAccessMailboxAllowed($box);
         $set = $box->getMessage($message);
 
         if (count($set) == 0) {
@@ -92,9 +96,11 @@ class MailController extends Controller
         $mailbox = $request->get('mailbox');
         $message = $request->get('mail');
 
+        $this->assertAccessSourceAllowed($source);
+
         $loader = $this->get('simplethings.zetawebmail.loader.'.$source);
         $box = $loader->loadMailbox($source, $mailbox);
-        $this->assertAccessAllowed($box);
+        $this->assertAccessMailboxAllowed($box);
         $set = $box->getMessage($message);
 
         $parser = $this->get("simplethings.zetawebmail.mailparser");
@@ -111,9 +117,11 @@ class MailController extends Controller
         $message = $request->get('mail');
         $part = $request->get('attachment');
 
+        $this->assertAccessSourceAllowed($source);
+
         $loader = $this->get('simplethings.zetawebmail.loader.'.$source);
         $box = $loader->loadMailbox($source, $mailbox);
-        $this->assertAccessAllowed($box);
+        $this->assertAccessMailboxAllowed($box);
         $set = $box->getMessage($message);
 
         if (count($set) == 0) {
@@ -126,13 +134,37 @@ class MailController extends Controller
         return MailPartResponse($mails[0]->getAttachment($part));
     }
 
-    private function assertAccessAllowed($box)
+    private function assertAccessSourceAllowed($source)
     {
         $token = $this->get('security.context')->getToken();
         $user = ($token) ? $token->getUser() : null;
-        if ( !$this->get('simplethings.zetawebmail.security')->accessAllowed($box, $user) ) {
+        if ( !$this->get('simplethings.zetawebmail.security')->accessSourceAllowed($source, $user) ) {
+            throw new HttpException(403, "Access to mailsource not allowed");
+        }
+    }
+
+    private function assertAccessMailboxAllowed($box)
+    {
+        $token = $this->get('security.context')->getToken();
+        $user = ($token) ? $token->getUser() : null;
+        if ( !$this->get('simplethings.zetawebmail.security')->accessMailboxAllowed($box, $user) ) {
             throw new HttpException(403, "Access to mailbox not allowed");
         }
     }
 
+    public function folderAction()
+    {
+        $request = $this->get('request');
+        $source = $request->get('source');
+
+        $this->assertAccessSourceAllowed($source);
+
+        $loader = $this->get('simplethings.zetawebmail.loader.'.$source);
+        $mailboxes = $loader->getMailboxNames();
+
+        return $this->render('SimpleThingsZetaWebmailBundle:Mail:folder.html.twig', array(
+            'source' => $source,
+            'mailboxes' => $mailboxes,
+        ));
+    }
 }
