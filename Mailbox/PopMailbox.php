@@ -20,10 +20,34 @@ namespace SimpleThings\ZetaWebmailBundle\Mailbox;
 class PopMailbox implements Mailbox
 {
     private $popTransport;
+    private $sourceName;
+    private $name;
 
-    public function __construct(\ezcMailPopTransport $popTransport)
+    public function __construct($source, $name, \ezcMailPopTransport $popTransport)
     {
+        $this->sourceName = $source;
+        $this->name = $name;
         $this->popTransport = $popTransport;
+    }
+
+    /**
+     * Return name of the source this mailbox is managed from.
+     *
+     * @return string
+     */
+    public function getSourceName()
+    {
+        return $this->sourceName;
+    }
+
+    /**
+     * Return name of the mailbox
+     *
+     * @return string
+     */
+    public function getName()
+    {
+        return $this->name;
     }
 
     public function getMessage($messageId)
@@ -43,10 +67,5 @@ class PopMailbox implements Mailbox
     public function getMessageList($offset = 0, $count = null)
     {
         return $this->popTransport->fetchFromOffset($offset, $count, false);
-    }
-
-    public function hasFolders()
-    {
-        return false;
     }
 }

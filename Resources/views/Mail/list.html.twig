@@ -1,11 +1,11 @@
 {% extends parent_template %}
 
 {% block zetawebmail_title %}
-Webmail - {{source}}:{{mailbox}}
+Webmail - {{box.sourceName}}:{{box.name}}
 {% endblock %}
 
 {% block zetawebmail_mailbox_name %}
-{{mailbox}}
+{{box.name}}
 {% endblock %}
 
 {% block zetawebmail_list %}
@@ -19,33 +19,37 @@ Webmail - {{source}}:{{mailbox}}
             <th>Size</th>
             <th><img src="{{ asset("bundles/simplethingszetawebmail/images/attach.png") }}" alt="Attach." /></th>
             <th><img src="{{ asset("bundles/simplethingszetawebmail/images/email_open.png") }}" alt="Download." /></th>
+            <th width="20">&nbsp;&nbsp;&nbsp;&nbsp;</th>
         </tr>
     </thead>
     <tbody>
 {% for id,mail in mails %}
 {% set id = start + id %}
+{% set mailPath = path("simplethings_zetawebmail_view_mail", {"source": box.sourceName, "mailbox": box.name, "mail": id}) %}
+{% set dataAttrs %}data-zeta-webmail-source="{{ box.sourceName }}" data-zeta-webmail-mailbox="{{ box.name }}" data-zeta-webmail-mail="{{ id }}"{% endset %}
         <tr>
-            <td><a href="{{ path("simplethings_zetawebmail_view_mail", {"source": source, "mailbox": mailbox, "mail": id}) }}">{{mail.subject}}</a></td>
-            <td><a href="{{ path("simplethings_zetawebmail_view_mail", {"source": source, "mailbox": mailbox, "mail": id}) }}"><span title="{{mail.from.email}}">{% if mail.from.name is defined %}{{mail.from.name}}{%else%}{{mail.from.email}}{%endif%}</span></a></td>
-            <td><a href="{{ path("simplethings_zetawebmail_view_mail", {"source": source, "mailbox": mailbox, "mail": id}) }}"><span title="{{mail.recipient.email}}">{% if mail.recipient.name is defined %}{{mail.recipient.name}}{%else%}{{mail.recipient.email}}{%endif%}</span></a></td>
-            <td><a href="{{ path("simplethings_zetawebmail_view_mail", {"source": source, "mailbox": mailbox, "mail": id}) }}">{{ mail.timestamp|date('D d.m.Y H:i') }}</a></td>
-            <td><a href="{{ path("simplethings_zetawebmail_view_mail", {"source": source, "mailbox": mailbox, "mail": id}) }}">{{ mail.formattedSize }}</a></td>
-            <td><a href="{{ path("simplethings_zetawebmail_view_mail", {"source": source, "mailbox": mailbox, "mail": id}) }}">{% if mail.hasAttachments %}<img border="0" src="{{ asset("bundles/simplethingszetawebmail/images/attach.png") }}" alt="Yes" />{% else %}&nbsp;{% endif %}</a></td>
-            <td><a href="{{ path("simplethings_zetawebmail_download_mail", {"source": source, "mailbox": mailbox, "mail": id}) }}"><img border="0" src="{{ asset("bundles/simplethingszetawebmail/images/email_open.png") }}" alt="Download" /></a></td>
+            <td class="zetaWebmailListingSubject"><a {{dataAttrs}} class="zetaMailViewLink" href="{{ mailPath }}">{{mail.subject}}</a></td>
+            <td class="zetaWebmailListingFrom"><a {{dataAttrs}} class="zetaMailViewLink" href="{{ mailPath }}"><span title="{{mail.from.email}}">{% if mail.from.name is defined %}{{mail.from.name}}{%else%}{{mail.from.email}}{%endif%}</span></a></td>
+            <td class="zetaWebmailListingTo"><a {{dataAttrs}} class="zetaMailViewLink" href="{{ mailPath }}"><span title="{{mail.recipient.email}}">{% if mail.recipient.name is defined %}{{mail.recipient.name}}{%else%}{{mail.recipient.email}}{%endif%}</span></a></td>
+            <td class="zetaWebmailListingDate"><a {{dataAttrs}} class="zetaMailViewLink" href="{{ mailPath }}">{{ mail.timestamp|date('D d.m.Y H:i') }}</a></td>
+            <td class="zetaWebmailListingSize"><a {{dataAttrs}} class="zetaMailViewLink" href="{{ mailPath }}">{{ mail.formattedSize }}</a></td>
+            <td class="zetaWebmailListingAttachments"><a {{dataAttrs}} class="zetaMailViewLink" href="{{ mailPath }}">{% if mail.hasAttachments %}<img border="0" src="{{ asset("bundles/simplethingszetawebmail/images/attach.png") }}" alt="Yes" />{% else %}&nbsp;{% endif %}</a></td>
+            <td class="zetaWebmailListingDownload"><a {{dataAttrs}} class="zetaMailDownloadLink" href="{{ path("simplethings_zetawebmail_download_mail", {"source": box.sourceName, "mailbox": box.name, "mail": id}) }}"><img border="0" src="{{ asset("bundles/simplethingszetawebmail/images/email_open.png") }}" alt="Download" /></a></td>
+            <td width="20">&nbsp;&nbsp;&nbsp;&nbsp;</td>
         </tr>
 {% endfor %}
     </tbody>
     <tfoot>
         <tr>
-            <td colspan="7" align="right">
+            <td colspan="8" align="right">
                 {% if start > 1 %}
-                <a href="{{ path("simplethings_zetawebmail_list_mailbox", {"source": source, "mailbox": mailbox, "offset": 1}) }}"><img border="0" src="{{ asset("bundles/simplethingszetawebmail/images/control_start.png") }}" alt="Start" /></a>
-                <a href="{{ path("simplethings_zetawebmail_list_mailbox", {"source": source, "mailbox": mailbox, "offset": start-limit}) }}"><img border="0" src="{{ asset("bundles/simplethingszetawebmail/images/control_rewind.png") }}" alt="Previous" /></a>
+                <a href="{{ path("simplethings_zetawebmail_list_mailbox", {"source": box.sourceName, "mailbox": box.name, "offset": 1}) }}"><img border="0" src="{{ asset("bundles/simplethingszetawebmail/images/control_start.png") }}" alt="Start" /></a>
+                <a href="{{ path("simplethings_zetawebmail_list_mailbox", {"source": box.sourceName, "mailbox": box.name, "offset": start-limit}) }}"><img border="0" src="{{ asset("bundles/simplethingszetawebmail/images/control_rewind.png") }}" alt="Previous" /></a>
                 {% endif %}
                 <span class="message-control">Messages {{ start }} to {{ end }} of {{ count }}</span>
                 {% if end < count %}
-                <a href="{{ path("simplethings_zetawebmail_list_mailbox", {"source": source, "mailbox": mailbox, "offset": end+1}) }}"><img border="0" src="{{ asset("bundles/simplethingszetawebmail/images/control_fastforward.png") }}" alt="Next" /></a>
-                <a href="{{ path("simplethings_zetawebmail_list_mailbox", {"source": source, "mailbox": mailbox, "offset": last}) }}"><img border="0" src="{{ asset("bundles/simplethingszetawebmail/images/control_end.png") }}" alt="End" /></a>
+                <a href="{{ path("simplethings_zetawebmail_list_mailbox", {"source": box.sourceName, "mailbox": box.name, "offset": end+1}) }}"><img border="0" src="{{ asset("bundles/simplethingszetawebmail/images/control_fastforward.png") }}" alt="Next" /></a>
+                <a href="{{ path("simplethings_zetawebmail_list_mailbox", {"source": box.sourceName, "mailbox": box.name, "offset": last}) }}"><img border="0" src="{{ asset("bundles/simplethingszetawebmail/images/control_end.png") }}" alt="End" /></a>
                 {% endif %}
             </td>
         </tr>

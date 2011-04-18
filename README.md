@@ -13,6 +13,7 @@ to allow any source of mails such as a database or the filesystem.
 * HTML XSS Injection prevented by Washtml library
 * Privacy protected by not displaying images in html mails by default.
 * Security abstraction to configure access to mail sources and mailboxes.
+* Interactive Example using reusable jQuery plugin (list_layout: SimpleThingsZetaWebmailBundle::interactive.html.twig)
 
 ## Installation
 
@@ -117,6 +118,5 @@ display this as an widget where ever you please.
 * Make sorting of subject, from, to configurable for developers and for webmail users.
 * Add functionality for sorting of messages by criteria to mailbox interface.
 * Stream download of mails and attachments?
-* Add jQuery Plugin in combination with a new layout that adds a fully working ajaxed webmail client.
 * Add write support: Read Status, Marking as read/unread, delete, move between mailboxes in a source.
 * Allow to hook into operations on mails to allow application specific workflows (such as Add To address book)

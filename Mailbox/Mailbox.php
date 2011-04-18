@@ -22,11 +22,18 @@ namespace SimpleThings\ZetaWebmailBundle\Mailbox;
 interface Mailbox
 {
     /**
-     * Does this mailbox have subfolders and allows to traverse them?
+     * Return name of the source this mailbox is managed from.
      *
-     * @return bool
+     * @return string
      */
-    public function hasFolders();
+    public function getSourceName();
+
+    /**
+     * Return name of the mailbox
+     *
+     * @return string
+     */
+    public function getName();
 
     /**
      * @param int

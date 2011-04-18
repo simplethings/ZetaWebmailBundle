@@ -24,11 +24,35 @@ class ImapMailbox implements Mailbox
      */
     private $imapTransport;
 
-    public function __construct(\ezcMailImapTransport $imapTransport)
+    private $sourceName;
+    private $name;
+
+    public function __construct($source, $name, \ezcMailImapTransport $imapTransport)
     {
+        $this->sourceName = $source;
+        $this->name = $name;
         $this->imapTransport = $imapTransport;
     }
 
+    /**
+     * Return name of the source this mailbox is managed from.
+     *
+     * @return string
+     */
+    public function getSourceName()
+    {
+        return $this->sourceName;
+    }
+
+    /**
+     * Return name of the mailbox
+     *
+     * @return string
+     */
+    public function getName()
+    {
+        return $this->name;
+    }
 
     public function getMessage($messageId)
     {

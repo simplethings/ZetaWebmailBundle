@@ -1,0 +1,55 @@
+<html>
+    <head>
+        <title>{% block zetawebmail_title %}Webmail{% endblock %}</title>
+        <link href="{{ asset("bundles/simplethingszetawebmail/css/zetamailbrowser.css") }}" type="text/css" rel="stylesheet" />
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <style type="text/css">
+        <!--
+            #mailingViewer, table.zetaWebmailListing {
+                width: 1000px;
+            }
+            #mailingPreview {
+                height: 400px;
+            }
+            #mailingViewer .zetaWebmailListing tbody {
+                height: 200px;
+                overflow-x: hidden;
+                overflow-y: auto;
+            }
+            #mailingViewer iframe {
+                border: 1px solid #000;
+            }
+            #mailingViewer td.zetaWebmailListingSubject {
+                width: 400px;
+            }
+            #mailingViewer td.zetaWebmailListingFrom, #mailingViewer td.zetaWebmailListingTo, #mailingViewer td.zetaWebmailListingDate {
+                width: 150px;
+            }
+        -->
+        </style>
+    </head>
+
+    <body>
+        <h2>{% block zetawebmail_mailbox_name "" %}</h2>
+
+        <div id="mailingViewer">
+            <div>
+            {% block zetawebmail_list %}{% endblock %}
+            </div>
+            <div id="mailingPreview">
+                <iframe id="zetaPreviewFrame" width="1000" height="400"></iframe>
+            </div>
+        </div>
+
+        <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.5.2/jquery.min.js"></script>
+        <script type="text/javascript" src="{{ asset("bundles/simplethingszetawebmail/js/zetawebmail.js") }}"></script>
+        <script type="text/javascript">
+        <!--
+            $(".zetaWebmailListing").zetaWebmail({
+                targetFrame: "#zetaPreviewFrame",
+                url: "{{ path("simplethings_zetawebmail_view_mail") }}"
+            });
+        -->
+        </script>
+    </body>
+</html>

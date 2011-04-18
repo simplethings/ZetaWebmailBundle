@@ -4,6 +4,7 @@
         <title>{{ mail.subject }}</title>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     </head>
+    <base target="_blank" />
     <script language="javascript" type="text/javascript">
     <!--
         function zetaShowImages() {
@@ -27,12 +28,12 @@
     <tr>
         <td colspan="2">
             {% if mail.hasHtmlPart %}
-            <a href="{{ path("simplethings_zetawebmail_view_mail", {"source": source, "mailbox": mailbox, "mail": message, "format": "html"}) }}">
+            <a href="{{ path("simplethings_zetawebmail_view_mail", {"source": box.sourceName, "mailbox": box.name, "mail": message, "format": "html"}) }}">
                 <img border="0" src="{{ asset("bundles/simplethingszetawebmail/images/html.png") }}" alt="HTML-Part" />
             </a>
             {% endif %}
             {% if mail.hasTextPart %}
-            <a href="{{ path("simplethings_zetawebmail_view_mail", {"source": source, "mailbox": mailbox, "mail": message, "format": "text"}) }}">
+            <a href="{{ path("simplethings_zetawebmail_view_mail", {"source": box.sourceName, "mailbox": box.name, "mail": message, "format": "text"}) }}">
                 <img border="0" src="{{ asset("bundles/simplethingszetawebmail/images/page_white_text.png") }}" alt="Text-Part" />
             </a>
             {% endif %}
@@ -73,7 +74,7 @@
         <td>
             <img src="{{ asset("bundles/simplethingszetawebmail/images/attach.png") }}" alt="" />
 {% for part,attachment in mail.attachments %}
-            <a href="{{ path("simplethings_zetawebmail_download_attachment", {"source": source, "mailbox": mailbox, "mail": message, "attachment": part }) }}">
+            <a href="{{ path("simplethings_zetawebmail_download_attachment", {"source": box.sourceName, "mailbox": box.name, "mail": message, "attachment": part }) }}">
                 {{ attachment.contentDisposition.displayFileName }}
             </a>
             {%if not loop.last %}, {% endif %}

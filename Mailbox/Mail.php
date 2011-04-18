@@ -130,6 +130,7 @@ class Mail extends ezcMail
     {
         $parts = $this->extractParts();
         $attach = array();
+        $i = 0;
         foreach ($parts AS $part) {
             if ( $part instanceof ezcMailFile) {
                 $attach[$i] = $part;

@@ -1,8 +1,8 @@
 body { font-size: 9pt; font-family: "Lucida Grande",Verdana,Arial,Helvetica,sans-serif; }
-table { border: 1px solid #c2c2c2; border-width: 1px 1px 0px 1px; border-spacing: 0px; }
-th, td { border: 1px solid #c2c2c2; border-width: 0px 0px 1px 0px; font-size: 9pt; font-family: "Lucida Grande",Verdana,Arial,Helvetica,sans-serif; }
-th { background-color: #f6f6f6; font-weight: bold; }
-td { overflow: hidden; white-space: nowrap; padding: 0px; }
-tbody td a { display: block; padding: 2px; text-decoration: none; color: #000; padding-left: 4px; padding-right: 4px; }
-tfoot td { padding: 2px; padding-left: 4px; padding-right: 4px; }
-.message-control { padding-right: 5px; }
+table.zetaWebmailListing { border: 1px solid #c2c2c2; border-width: 1px 1px 0px 1px; border-spacing: 0px; }
+.zetaWebmailListing th, .zetaWebmailListing td { border: 1px solid #c2c2c2; border-width: 0px 0px 1px 0px; font-size: 9pt; font-family: "Lucida Grande",Verdana,Arial,Helvetica,sans-serif; }
+.zetaWebmailListing th { background-color: #f6f6f6; font-weight: bold; }
+.zetaWebmailListing td { overflow: hidden; white-space: nowrap; padding: 0px; }
+.zetaWebmailListing tbody td a { display: block; padding: 2px; text-decoration: none; color: #000; padding-left: 4px; padding-right: 4px; display: inline-block; overflow: hidden; white-space: nowrap; }
+.zetaWebmailListing tfoot td { padding: 2px; padding-left: 4px; padding-right: 4px; }
+.zetaWebmailListing .message-control { padding-right: 5px; }

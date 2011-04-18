@@ -72,7 +72,7 @@ class ImapLoader implements MailboxLoader
             throw MailboxException::unknownSource($source, 'imap');
         }
 
-        return new ImapMailbox($this->getImapTransport($mailbox));
+        return new ImapMailbox($source, $mailbox, $this->getImapTransport($mailbox));
     }
 
     private function getImapTransport($mailbox)

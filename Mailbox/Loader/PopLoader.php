@@ -69,7 +69,7 @@ class PopLoader implements MailboxLoader
             throw MailboxException::unknownSource($source, 'imap');
         }
 
-        return new PopMailbox($this->getPopTransport());
+        return new PopMailbox($source, $mailbox, $this->getPopTransport());
     }
 
     private function getPopTransport()

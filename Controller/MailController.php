@@ -21,6 +21,8 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\HttpKernel\Exception\HttpException;
+use SimpleThings\ZetaWebmailBundle\Http\MailResponse;
+use SimpleThings\ZetaWebmailBundle\Http\MailPartResponse;
 
 class MailController extends Controller
 {
@@ -43,8 +45,7 @@ class MailController extends Controller
 
         return $this->render("SimpleThingsZetaWebmailBundle:Mail:list.html.twig", array(
             'mails'             => $mails,
-            'source'            => $source,
-            'mailbox'           => $mailbox,
+            'box'               => $box,
             'count'             => $messageCount,
             'start'             => $offset,
             'end'               => min($offset + $limit - 1, $messageCount),
@@ -79,8 +80,7 @@ class MailController extends Controller
             'mail'              => $mails[0],
             'preferredFormat'   => $preferredFormat,
             'showImages'        => $showImages,
-            'source'            => $source,
-            'mailbox'           => $mailbox,
+            'box'               => $box,
             'message'           => $message,
         ));
     }
@@ -100,7 +100,7 @@ class MailController extends Controller
         $parser = $this->get("simplethings.zetawebmail.mailparser");
         $mails = $parser->parseMail( $set );
 
-        return new Http\MailResponse($mails);
+        return new MailResponse($mails);
     }
 
     public function attachmentAction()
@@ -123,7 +123,7 @@ class MailController extends Controller
         $parser = $this->get("simplethings.zetawebmail.mailparser");
         $mails = $parser->parseMail( $set );
 
-        return Http\MailPartResponse($mails[0]->getAttachment($part));
+        return MailPartResponse($mails[0]->getAttachment($part));
     }
 
     private function assertAccessAllowed($box)
