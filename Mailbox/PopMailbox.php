@@ -64,8 +64,19 @@ class PopMailbox implements Mailbox
         return $messageCount;
     }
 
-    public function getMessageList($offset = 0, $count = null)
+    public function getMessageList($offset = 0, $count = null, $sortBy = self::SORT_DATE, $reverse = true)
     {
-        return $this->popTransport->fetchFromOffset($offset, $count, false);
+        if ($sortBy != self::SORT_DATE) {
+            throw new \InvalidArgumentException("POP transport only supports sorting by date.");
+        }
+
+        if ($reverse) {
+            $offset = $this->getMessageCount() - $offset + 2;
+        }
+        $set = $this->popTransport->fetchFromOffset($offset, $count, false);
+        if ($reverse) {
+            $set = array_reverse($set);
+        }
+        return $set;
     }
 }

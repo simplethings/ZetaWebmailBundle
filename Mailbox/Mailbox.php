@@ -21,6 +21,8 @@ namespace SimpleThings\ZetaWebmailBundle\Mailbox;
  */
 interface Mailbox
 {
+    const SORT_DATE = "Date";
+
     /**
      * Return name of the source this mailbox is managed from.
      *
@@ -40,7 +42,7 @@ interface Mailbox
      * @param int
      * @return ezcMailParserSet
      */
-    public function getMessageList($offset = 0, $count = null);
+    public function getMessageList($offset = 0, $count = null, $sortBy = self::SORT_DATE, $reverse = true);
 
     /**
      * @param string|int
