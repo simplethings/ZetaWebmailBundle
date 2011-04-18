@@ -25,7 +25,7 @@ Webmail - {{box.sourceName}}:{{box.name}}
     <tbody>
 {% for id,mail in mails %}
 {% set id = start + id %}
-{% set mailPath = path("simplethings_zetawebmail_view_mail", {"source": box.sourceName, "mailbox": box.name, "mail": id}) %}
+{% set mailPath = path("simplethings_zetawebmail_view_mail", {"source": box.sourceName, "mailbox": box.name, "mail": id, "sort": sort, "reverse": reverse}) %}
 {% set dataAttrs %}data-zeta-webmail-source="{{ box.sourceName }}" data-zeta-webmail-mailbox="{{ box.name }}" data-zeta-webmail-mail="{{ id }}"{% endset %}
         <tr>
             <td class="zetaWebmailListingSubject"><a {{dataAttrs}} class="zetaMailViewLink" href="{{ mailPath }}">{{mail.subject}}</a></td>
@@ -34,7 +34,7 @@ Webmail - {{box.sourceName}}:{{box.name}}
             <td class="zetaWebmailListingDate"><a {{dataAttrs}} class="zetaMailViewLink" href="{{ mailPath }}">{{ mail.timestamp|date('D d.m.Y H:i') }}</a></td>
             <td class="zetaWebmailListingSize"><a {{dataAttrs}} class="zetaMailViewLink" href="{{ mailPath }}">{{ mail.formattedSize }}</a></td>
             <td class="zetaWebmailListingAttachments"><a {{dataAttrs}} class="zetaMailViewLink" href="{{ mailPath }}">{% if mail.hasAttachments %}<img border="0" src="{{ asset("bundles/simplethingszetawebmail/images/attach.png") }}" alt="Yes" />{% else %}&nbsp;{% endif %}</a></td>
-            <td class="zetaWebmailListingDownload"><a {{dataAttrs}} class="zetaMailDownloadLink" href="{{ path("simplethings_zetawebmail_download_mail", {"source": box.sourceName, "mailbox": box.name, "mail": id}) }}"><img border="0" src="{{ asset("bundles/simplethingszetawebmail/images/email_open.png") }}" alt="Download" /></a></td>
+            <td class="zetaWebmailListingDownload"><a {{dataAttrs}} class="zetaMailDownloadLink" href="{{ path("simplethings_zetawebmail_download_mail", {"source": box.sourceName, "mailbox": box.name, "mail": id, "sort": sort, "reverse": reverse}) }}"><img border="0" src="{{ asset("bundles/simplethingszetawebmail/images/email_open.png") }}" alt="Download" /></a></td>
             <td width="20">&nbsp;&nbsp;&nbsp;&nbsp;</td>
         </tr>
 {% endfor %}

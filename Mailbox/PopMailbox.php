@@ -50,7 +50,7 @@ class PopMailbox implements Mailbox
         return $this->name;
     }
 
-    public function getMessage($messageId)
+    public function getMessage($messageId, $sortBy = self::SORT_DATE, $reverse = true)
     {
         return $this->popTransport->fetchByMessageNr($messageId);
     }
@@ -71,7 +71,7 @@ class PopMailbox implements Mailbox
         }
 
         if ($reverse) {
-            $offset = $this->getMessageCount() - $offset + 2;
+            $offset = $this->getMessageCount() - $offset + 1;
         }
         $set = $this->popTransport->fetchFromOffset($offset, $count, false);
         if ($reverse) {

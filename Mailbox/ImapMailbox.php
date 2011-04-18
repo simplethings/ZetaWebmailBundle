@@ -54,19 +54,14 @@ class ImapMailbox implements Mailbox
         return $this->name;
     }
 
-    public function getMessage($messageId)
+    public function getMessage($messageId, $sortBy = self::SORT_DATE, $reverse = true)
     {
-        return $this->imapTransport->fetchByMessageNr($messageId);
+        return $this->imapTransport->sortFromOffset($messageId, 1, $sortBy, $reverse);
     }
 
     public function getMessageList($offset = 0, $count = null, $sortBy = self::SORT_DATE, $reverse = true)
     {
         return $this->imapTransport->sortFromOffset($offset, $count, $sortBy, $reverse);
-    }
-
-    public function hasFolders()
-    {
-
     }
 
     /**

@@ -33,13 +33,15 @@ class MailController extends Controller
         $mailbox = $request->get('mailbox');
         $offset = $request->get('offset', 1);
         $limit = $request->get('limit', 20);
+        $sort = $request->get('sort', 'Date');
+        $reverse = (bool)$request->get('reverse', true);
 
         $this->assertAccessSourceAllowed($source);
         
         $loader = $this->get('simplethings.zetawebmail.loader.'.$source);
         $box = $loader->loadMailbox($source, $mailbox);
         $this->assertAccessMailboxAllowed($box);
-        $set = $box->getMessageList($offset, $limit);
+        $set = $box->getMessageList($offset, $limit, $sort, $reverse);
 
         $parser = $this->get("simplethings.zetawebmail.mailparser");
         $mails = $parser->parseMail( $set );
@@ -48,10 +50,13 @@ class MailController extends Controller
         return $this->render("SimpleThingsZetaWebmailBundle:Mail:list.html.twig", array(
             'mails'             => $mails,
             'box'               => $box,
+            'reverse'           => $reverse,
             'count'             => $messageCount,
             'start'             => $offset,
             'end'               => min($offset + $limit - 1, $messageCount),
             'limit'             => $limit,
+            'sort'              => $sort,
+            'reverse'           => $reverse,
             'last'              => (floor($messageCount  / $limit) * $limit) + 1,
             'parent_template'   => $this->container->getParameter('simplethings.zetawebmail.listlayout'),
         ));
@@ -65,13 +70,15 @@ class MailController extends Controller
         $message = $request->get('mail');
         $preferredFormat = $request->get('format', 'html');
         $showImages = (bool)$request->get('showImages', 0);
+        $sort = $request->get('sort', 'Date');
+        $reverse = (bool)$request->get('reverse', true);
 
         $this->assertAccessSourceAllowed($source);
 
         $loader = $this->get('simplethings.zetawebmail.loader.'.$source);
         $box = $loader->loadMailbox($source, $mailbox);
         $this->assertAccessMailboxAllowed($box);
-        $set = $box->getMessage($message);
+        $set = $box->getMessage($message, $sort, $reverse);
 
         if (count($set) == 0) {
             throw new NotFoundHttpException("Mail not found.");
@@ -86,6 +93,8 @@ class MailController extends Controller
             'showImages'        => $showImages,
             'box'               => $box,
             'message'           => $message,
+            'sort'              => $sort,
+            'reverse'           => $reverse,
         ));
     }
 
@@ -95,13 +104,15 @@ class MailController extends Controller
         $source = $request->get('source');
         $mailbox = $request->get('mailbox');
         $message = $request->get('mail');
+        $sort = $request->get('sort', 'Date');
+        $reverse = (bool)$request->get('reverse', true);
 
         $this->assertAccessSourceAllowed($source);
 
         $loader = $this->get('simplethings.zetawebmail.loader.'.$source);
         $box = $loader->loadMailbox($source, $mailbox);
         $this->assertAccessMailboxAllowed($box);
-        $set = $box->getMessage($message);
+        $set = $box->getMessage($message, $sort, $reverse);
 
         $parser = $this->get("simplethings.zetawebmail.mailparser");
         $mails = $parser->parseMail( $set );
@@ -116,13 +127,15 @@ class MailController extends Controller
         $mailbox = $request->get('mailbox');
         $message = $request->get('mail');
         $part = $request->get('attachment');
+        $sort = $request->get('sort', 'Date');
+        $reverse = (bool)$request->get('reverse', true);
 
         $this->assertAccessSourceAllowed($source);
 
         $loader = $this->get('simplethings.zetawebmail.loader.'.$source);
         $box = $loader->loadMailbox($source, $mailbox);
         $this->assertAccessMailboxAllowed($box);
-        $set = $box->getMessage($message);
+        $set = $box->getMessage($message, $sort, $reverse);
 
         if (count($set) == 0) {
             throw new NotFoundHttpException("Mail not found.");

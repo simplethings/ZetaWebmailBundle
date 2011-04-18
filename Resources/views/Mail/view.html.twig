@@ -27,13 +27,14 @@
     <col />
     <tr>
         <td colspan="2">
+            <a href="{{ path("simplethings_zetawebmail_download_mail", {"source": box.sourceName, "mailbox": box.name, "mail": message, "sort": sort, "reverse": reverse}) }}"><img border="0" src="{{ asset("bundles/simplethingszetawebmail/images/email_open.png") }}" alt="Download" /></a>
             {% if mail.hasHtmlPart %}
-            <a href="{{ path("simplethings_zetawebmail_view_mail", {"source": box.sourceName, "mailbox": box.name, "mail": message, "format": "html"}) }}">
+            <a href="{{ path("simplethings_zetawebmail_view_mail", {"source": box.sourceName, "mailbox": box.name, "mail": message, "format": "html", "sort": sort, "reverse": reverse}) }}">
                 <img border="0" src="{{ asset("bundles/simplethingszetawebmail/images/html.png") }}" alt="HTML-Part" />
             </a>
             {% endif %}
             {% if mail.hasTextPart %}
-            <a href="{{ path("simplethings_zetawebmail_view_mail", {"source": box.sourceName, "mailbox": box.name, "mail": message, "format": "text"}) }}">
+            <a href="{{ path("simplethings_zetawebmail_view_mail", {"source": box.sourceName, "mailbox": box.name, "mail": message, "format": "text", "sort": sort, "reverse": reverse}) }}">
                 <img border="0" src="{{ asset("bundles/simplethingszetawebmail/images/page_white_text.png") }}" alt="Text-Part" />
             </a>
             {% endif %}
@@ -74,7 +75,7 @@
         <td>
             <img src="{{ asset("bundles/simplethingszetawebmail/images/attach.png") }}" alt="" />
 {% for part,attachment in mail.attachments %}
-            <a href="{{ path("simplethings_zetawebmail_download_attachment", {"source": box.sourceName, "mailbox": box.name, "mail": message, "attachment": part }) }}">
+            <a href="{{ path("simplethings_zetawebmail_download_attachment", {"source": box.sourceName, "mailbox": box.name, "mail": message, "attachment": part, "sort": sort, "reverse": reverse }) }}">
                 {{ attachment.contentDisposition.displayFileName }}
             </a>
             {%if not loop.last %}, {% endif %}

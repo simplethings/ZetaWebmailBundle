@@ -48,7 +48,7 @@ interface Mailbox
      * @param string|int
      * @return ezcMailParserSet
      */
-    public function getMessage($messageId);
+    public function getMessage($messageId, $sortBy = self::SORT_DATE, $reverse = true);
 
 
     /**
