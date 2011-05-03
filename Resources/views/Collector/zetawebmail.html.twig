@@ -34,6 +34,14 @@
             <h3>Message {{ i + 1 }} / {{ collector.messagecount }}</h3>
 
             <pre>{{ message.generateHeaders }}</pre>
+            
+            <p>
+                {% if message.charset == "us-ascii" %}
+                <pre>{{ message.generateBody|e('html', 'UTF-8') }}</pre>
+                {% else %}
+                <pre>{{ message.generateBody|e('html', message.charset) }}</pre>
+                {% endif %}
+            </p>
         {% endfor %}
     {% endif %}
 {% endblock %}
