@@ -19,3 +19,9 @@ services:
   simplethings.zetawebmail.security.zeta_mail_role:
     class: SimpleThings\ZetaWebmailBundle\Security\ZetaMailRoleSecurity
     arguments: [ "@security.context" ]
+    
+  simplethings.zetawebmail.data_collector:
+    class: SimpleThings\ZetaWebmailBundle\DataCollector\MessageDataCollector
+    arguments: [ "@?simplethings.zetawebmail.transport" ]
+    tags:
+        - { name: data_collector, template: "SimpleThingsZetaWebmailBundle:Collector:zetawebmail", id: "zetawebmail" }

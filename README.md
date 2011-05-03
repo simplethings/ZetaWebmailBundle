@@ -1,8 +1,14 @@
 # Zeta Webmail Bundle
 
-A flexible Webmail bundle for [Symfony2](http://www.symfony.com) to show lists and detailed view of mails loaded from arbitrary sources.
-Zeta Components are used to parse mails and access IMAP/POP sources, a simple interface is provided
-to allow any source of mails such as a database or the filesystem.
+A flexible Webmail bundle for [Symfony2](http://www.symfony.com) to show lists and detailed
+view of mails loaded from arbitrary sources. Zeta Components are used to parse mails and
+access IMAP/POP sources, a simple interface is provided to allow any source of mails such as
+a database or the filesystem.
+
+Zeta Components sending and composing capabilities are also leveraged, a transporting service is provided.
+The transporting service is integrated into the WebDebugToolbar and shows the number of sent mail
+per request and shows their headers. Zeta Webmail Bundle ships with a NullTransport that can be
+used for sending in development.
 
 ## Features
 
@@ -111,6 +117,36 @@ for preview windows.
 
 The list view does not use a layout itself so you can use the {% render %} command from Twig to
 display this as an widget where ever you please.
+
+## Sending
+
+To send mails you have to configure the transport to send with:
+
+    simple_things_zeta_webmail:
+        transport:
+            type: smtp
+            host: localhost
+            user: foo
+            password: bar
+            port: 1234
+
+You can access this service by accessing:
+
+    $mail = new \ezcMailComposer();
+    // compose the mail here...
+
+    $transport = $container->get("simplethings.zetawebmail.transport");
+    $transport->send($mail);
+
+The following transports are shipped:
+
+* smtp - SMTP Transport (ezcMailSmtpTransport)
+* mta - MTA Transport (ezcMailMtaTransport)
+* null - Send nothing (good for development). MUST BE PUT IN QUOTES
+
+## Composer
+
+..
 
 ## TODO
 

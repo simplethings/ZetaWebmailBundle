@@ -71,6 +71,44 @@ class SimpleThingsZetaWebmailExtension extends Extension
                     }
                 }
             }
+            
+            if (isset($config['transport']) && is_array($config['transport'])) {
+                $transportConfig = $config['transport'];
+                if (isset($transportConfig['type'])) {
+                    switch ($transportConfig['type']) {
+                        case 'smtp':                            
+                            $def = new Definition('ezcMailSmtpTransport', array(
+                                $sourceConfig['host'],
+                                isset($sourceConfig['user']) ? $sourceConfig['user'] : null,
+                                isset($sourceConfig['password']) ? $sourceConfig['password'] : null,
+                                isset($sourceConfig['port']) ? $sourceConfig['port'] : null,
+                                isset($sourceConfig['options']) ? $sourceConfig['options'] : array(),
+                            ));
+                            $container->setDefinition('simplethings.zetawebmail.transport.real', $def);
+                            break;
+                        case 'mta':
+                            $def = new Definition('ezcMailMtaTransport', array());
+                            $container->setDefinition('simplethings.zetawebmail.transport.real', $def);
+                            break;
+                        case 'null':
+                            $def = new Definition('SimpleThings\ZetaWebmailBundle\Transport\NullTransport');
+                            $container->setDefinition('simplethings.zetawebmail.transport.real', $def);
+                            break;
+                        default:
+                            $container->setAlias('simplethings.zetawebmail.transport.real', $transportConfig['type']);
+                            break;
+                    }
+                    
+                    if ($container->getParameter('kernel.debug')) {
+                        $def = new Definition('SimpleThings\ZetaWebmailBundle\Transport\LoggingTransport', array(
+                            new Reference('simplethings.zetawebmail.transport.real')
+                        ));
+                        $container->setDefinition('simplethings.zetawebmail.transport', $def);
+                    } else {
+                        $container->setAlias('simplethings.zetawebmail.transport', 'simplethings.zetawebmail.transport.real');
+                    }
+                }
+            }
         }
 
         if (in_array($security, array("admin_party", "zeta_mail_role"))) {
