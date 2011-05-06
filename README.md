@@ -30,6 +30,11 @@ Currently this has still to be done through the old ezcomponents.org PEAR channe
     pear channel-discover pear.ezcomponents.org
     pear install ezc/Mail
 
+Add the following lines to your autoload.php:
+
+    require_once "ezc/Base/base.php";
+    spl_autoload_register(array("ezcBase", "autoload"));
+
 Download this bundle into vendor/bundles/SimpleThings/ZetaWebmail:
 
     git clone git://github.com/simplethings/ZetaWebmail.git vendor/bundles/SimpleThings/ZetaWebmail
@@ -66,6 +71,16 @@ Configure bundle in app/config.yml
           username: user
           password: s3cr3t
           ssl: true
+
+You can also add the following routing files for the mailing viewer and the composer:
+
+    zeta_webmail:
+        resource: "@SimpleThingsZetaWebmailBundle/Resources/config/routing.yml"
+        prefix: /zeta
+
+    zeta_webmail_composer:
+        resource: "@SimpleThingsZetaWebmailBundle/Resources/config/routing_composer.yml"
+        prefix: /zeta
 
 ## Loaders
 
