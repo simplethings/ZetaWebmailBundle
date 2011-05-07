@@ -91,7 +91,11 @@ class ZetaMailer implements MailerInterface
         $message->subject = $subject;
         $message->subjectCharset = 'UTF-8';
         $message->charset = 'UTF-8';
-        $message->plainText = $body;
+        if (strpos($body, '<body') === false) {
+            $message->plainText = $body;
+        } else {
+            $message->htmlText = $body;
+        }
         $message->build();
 
         $this->mailTransport->send($message);
