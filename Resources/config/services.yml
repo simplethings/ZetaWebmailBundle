@@ -25,3 +25,16 @@ services:
     arguments: [ "@?simplethings.zetawebmail.transport" ]
     tags:
         - { name: data_collector, template: "SimpleThingsZetaWebmailBundle:Collector:zetawebmail", id: "zetawebmail" }
+
+  simplethings.zetawebmail.fosuser.mailer:
+    class: SimpleThings\ZetaWebmailBundle\UserBundle\ZetaMailer
+    arguments:
+      0: "@simplethings.zetawebmail.transport"
+      1: "@router"
+      2: "@templating"
+      3:
+        confirmation.template: %fos_user.email.confirmation.template%
+        resetting_password.template: %fos_user.email.resetting_password.template%
+        from_email:
+          confirmation: %fos_user.email.from_email%
+          resetting_password: %fos_user.email.from_email%

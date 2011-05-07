@@ -14,8 +14,9 @@ used for sending in development.
 
 ## Features
 
-* Sending of mails
+* Send mails using transport services (SwiftMailerBundle replacement)
 * Integration into WebDebugToolbar
+* Mailer for FOS\UserBundle (SwiftMailerBundle replacement)
 * List Mails from Imap/Pop accounts (pagination included)
 * Add arbitrary backend that provides mails.
 * Download mail as .eml to open with associated Outlook, Thunderbird or other mail clients.
@@ -163,9 +164,19 @@ The following transports are shipped:
 * mta - MTA Transport (ezcMailMtaTransport)
 * null - Send nothing (good for development). MUST BE PUT IN QUOTES
 
-## Composer
+## Using Zeta Components with FOS\UserBundle
 
-..
+The FOS\UserBundle has an abstraction layer for mails that are sent for confirmation and reset password
+purposes. The ZetaWebmailBundle ships with a replacement of the default SwiftMailer implementation.
+
+Just put the following in your app/config/config.yml to get rid of Swiftmailer:
+
+    fos_user:
+      # ...
+      service:
+        mailer: simplethings.zetawebmail.fosuser.mailer
+
+This service uses the transport service defined before for sending mails.
 
 ## TODO
 
