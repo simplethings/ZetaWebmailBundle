@@ -1,17 +1,21 @@
 # Zeta Webmail Bundle
 
-A flexible Webmail bundle for [Symfony2](http://www.symfony.com) to show lists and detailed
-view of mails loaded from arbitrary sources. Zeta Components are used to parse mails and
+A flexible Mail bundle for [Symfony2](http://www.symfony.com) for sending and displaying purposes
+You can show mailbox contents and mails loaded from arbitrary sources. Zeta Components is used to parse mails and
 access IMAP/POP sources, a simple interface is provided to allow any source of mails such as
 a database or the filesystem.
 
-Zeta Components sending and composing capabilities are also leveraged, a transporting service is provided.
+Zeta Components sending and composing capabilities are also leveraged, a transporting service is provided,
+making this bundle a dropin replacement for SwiftMailerBundle.
+
 The transporting service is integrated into the WebDebugToolbar and shows the number of sent mail
 per request and shows their headers. Zeta Webmail Bundle ships with a NullTransport that can be
 used for sending in development.
 
 ## Features
 
+* Sending of mails
+* Integration into WebDebugToolbar
 * List Mails from Imap/Pop accounts (pagination included)
 * Add arbitrary backend that provides mails.
 * Download mail as .eml to open with associated Outlook, Thunderbird or other mail clients.
