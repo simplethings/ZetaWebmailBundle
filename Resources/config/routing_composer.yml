@@ -1,3 +1,0 @@
-simplethings_zetawebmail_composer_form:
-  pattern: /compose
-  defaults: { _controller: "SimpleThingsZetaWebmailBundle:Composer:form" }
