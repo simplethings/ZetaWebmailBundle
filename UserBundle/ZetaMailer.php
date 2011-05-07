@@ -89,6 +89,8 @@ class ZetaMailer implements MailerInterface
         $message->from = $from;
         $message->addTo( new \ezcMailAddress($toEmail) );
         $message->subject = $subject;
+        $message->subjectCharset = 'UTF-8';
+        $message->charset = 'UTF-8';
         $message->plainText = $body;
         $message->build();
 
