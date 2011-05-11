@@ -31,6 +31,10 @@ class SimpleThingsZetaWebmailExtension extends Extension
     {
         $loader = new YamlFileLoader($container, new FileLocator(__DIR__ . "/../Resources/config/"));
         $loader->load("services.yml");
+        
+        if ($container->hasParameter('fos_user.email.confirmation.template')) {
+            $loader->load("fosuser.yml");
+        }
 
         $security = null;
         foreach ($configs AS $config) {
