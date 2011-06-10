@@ -6,8 +6,8 @@ services:
       1: "@router"
       2: "@templating"
       3:
-        confirmation.template: %fos_user.email.confirmation.template%
-        resetting_password.template: %fos_user.email.resetting_password.template%
+        confirmation.template: %fos_user.registration.confirmation.template%
+        resetting_password.template: %fos_user.resetting.email.template%
         from_email:
-          confirmation: %fos_user.email.from_email%
-          resetting_password: %fos_user.email.from_email%
+          confirmation: %fos_user.registration.confirmation.from_email%
+          resetting_password: %fos_user.resetting.email.from_email%
