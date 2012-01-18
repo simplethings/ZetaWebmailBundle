@@ -79,7 +79,8 @@ class Mail extends ezcMail
                 'allow_remote' => $showImages,
                 'blocked_src'  => $blockImageSrc,
             ));
-            return $washtml->wash($part->text);
+            $text = $washtml->wash(mb_convert_encoding($part->text, 'HTML-ENTITIES', 'UTF-8'));
+            return $text;
         } else {
             return '<pre>' . $part->text . '</pre>';
         }
