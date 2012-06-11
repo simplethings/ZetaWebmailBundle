@@ -42,7 +42,7 @@ Add the following lines to your autoload.php:
 
 Download this bundle into vendor/bundles/SimpleThings/ZetaWebmail:
 
-    git clone git://github.com/simplethings/ZetaWebmail.git vendor/bundles/SimpleThings/ZetaWebmail
+    git clone git://github.com/simplethings/ZetaWebmailBundle.git vendor/bundles/SimpleThings/ZetaWebmail
 
 Register Autoloading namespace SimpleThings into app/autoload.php
 
